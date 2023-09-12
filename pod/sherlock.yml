@@ -4,7 +4,6 @@ kind: Pod
 metadata:
   name: sherlock
 spec:
-  serviceAccountName: logging-loki
   containers:
   - name: a-debugger-container
     image: arunsanna/k8s-sherlock:latest
