@@ -32,6 +32,8 @@ spec:
             - "echo Ready!"
         initialDelaySeconds: 5
         periodSeconds: 10
+  nodeSelector: {}
+  serviceAccountName: sherlock-sa
   tolerations:
     - key: bat_app
       operator: Equal
