@@ -5,8 +5,52 @@ metadata:
   name: sherlock
 spec:
   containers:
-  - name: a-debugger-container
-    image: arunsanna/k8s-sherlock:latest
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do sleep 300; done"]
+    - name: sherlock
+      image: arunsanna/k8s-sherlock:latest
+      command: ["/bin/sh"]
+      args: ["-c", "while true; do sleep 300; done"]
+      resources:
+        limits:
+          cpu: "1"
+          memory: "1Gi"
+        requests:
+          cpu: "0.5"
+          memory: "512Mi"
+      livenessProbe:
+        exec:
+          command:
+            - "/bin/bash"
+            - "-c"
+            - "echo Hello, Sherlock!"
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      readinessProbe:
+        exec:
+          command:
+            - "/bin/bash"
+            - "-c"
+            - "echo Ready!"
+        initialDelaySeconds: 5
+        periodSeconds: 10
+  tolerations:
+    - key: bat_app
+      operator: Equal
+      value: utility_belt
+      effect: NoSchedule
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/unreachable
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
   restartPolicy: Always
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sherlock-sa
