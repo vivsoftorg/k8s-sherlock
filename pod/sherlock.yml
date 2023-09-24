@@ -1,5 +1,10 @@
 ---
 apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sherlock-sa
+---
+apiVersion: v1
 kind: Pod
 metadata:
   name: sherlock
@@ -33,7 +38,6 @@ spec:
         initialDelaySeconds: 5
         periodSeconds: 10
   nodeSelector: {}
-  serviceAccountName: sherlock-sa
   tolerations:
     - key: bat_app
       operator: Equal
@@ -51,8 +55,4 @@ spec:
       effect: NoExecute
       tolerationSeconds: 300
   restartPolicy: Always
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: sherlock-sa
+
