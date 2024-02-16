@@ -39,10 +39,7 @@ spec:
         periodSeconds: 10
   nodeSelector: {}
   tolerations:
-    - key: bat_app
-      operator: Equal
-      value: utility_belt
-      effect: NoSchedule
+    
     - key: CriticalAddonsOnly
       operator: Exists
       effect: NoSchedule
